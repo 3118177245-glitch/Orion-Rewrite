@@ -1,26 +1,48 @@
 /*
  * Orion Rewrite
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: 3118177245-glitch
  * Project: Orion-Rewrite
- * Compatible:
- *   - Mihomo
- *   - Clash Mi
- *   - FiClash
- *   - Clash Meta
  */
 
 function main(config) {
-  console.log("Orion Rewrite v1.0.0");
-
   if (!config) return {};
 
-  // 确保配置存在
   config.proxies = config.proxies || [];
   config["proxy-groups"] = config["proxy-groups"] || [];
   config.rules = config.rules || [];
 
-  // 这里以后会添加更多功能
+  // 获取所有节点名称
+  const proxyNames = config.proxies.map(p => p.name);
+
+  // 创建策略组
+  const groups = [
+    {
+      name: "🚀 全球加速",
+      type: "select",
+      proxies: ["♻️ 自动选择", "🎯 直连", ...proxyNames]
+    },
+    {
+      name: "♻️ 自动选择",
+      type: "url-test",
+      url: "http://www.gstatic.com/generate_204",
+      interval: 300,
+      tolerance: 50,
+      proxies: proxyNames
+    },
+    {
+      name: "🎯 直连",
+      type: "select",
+      proxies: ["DIRECT"]
+    },
+    {
+      name: "🤖 AI",
+      type: "select",
+      proxies: ["🚀 全球加速", "♻️ 自动选择", "🎯 直连"]
+    }
+  ];
+
+  config["proxy-groups"].push(...groups);
 
   return config;
 }
