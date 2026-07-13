@@ -175,7 +175,7 @@ function removeEmoji(text){
  * ===================================== */
 
 function GroupBuilder(config) {
-
+  config["proxy-groups"] = [];
   const proxies = config.proxies.map(p => p.name);
   const groups = config["proxy-groups"];
 
